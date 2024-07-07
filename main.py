@@ -5,7 +5,6 @@ import logging
 from handlers import commands, echo
 
 commands.register_commands(dp)
-
 # Эхо функции - вызвать самым последним
 echo.register_echo(dp)
 
