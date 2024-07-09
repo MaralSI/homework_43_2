@@ -1,20 +1,18 @@
 
-
 from aiogram import types, Dispatcher
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, PollType
 from config import bot
 
-# Вопросы для викторины
 quiz_data = {
     "question1": {
         "question": "BMW or Mercedes?",
-        "options": ["BMW", "Mercedes", "Audi"],
+        "options": ["BMW", "Mercedes"],
         "correct_option_id": 1,
         "next_question": "question2"
     },
     "question2": {
-        "question": "Сколько дней в неделе?",
-        "options": ["5", "6", "7"],
+        "question": "Messi or Ronaldo?",
+        "options": ["Messi", "Ronaldo", "Я"],
         "correct_option_id": 2,
         "next_question": "question3"
     },
