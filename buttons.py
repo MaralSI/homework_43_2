@@ -8,4 +8,3 @@ start_buttons = ReplyKeyboardMarkup(resize_keyboard=True,
 
 cancel = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True).add(
     KeyboardButton('Отмена'))
-
