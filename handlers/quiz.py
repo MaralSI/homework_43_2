@@ -2,53 +2,55 @@ from aiogram import types, Dispatcher
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, PollType
 from config import bot
 
-quiz_data = {
-    "question1": {
-        "question": "BMW or Mercedes?",
-        "options": ["BMW", "Mercedes"],
-        "correct_option_id": 1,
-        "next_question": "question2"
-    },
-    "question2": {
-        "question": "Messi or Ronaldo?",
-        "options": ["Messi", "Ronaldo", "Я"],
-        "correct_option_id": 2,
-        "next_question": "question3"
-    },
-    "question3": {
-        "question": "Сколько месяцев в году?",
-        "options": ["10", "11", "12"],
-        "correct_option_id": 2,
-        "next_question": None
-    }
-}
+async def quiz(message: types.Message):
+    button_quiz = InlineKeyboardMarkup()
+    button_quiz_1 = InlineKeyboardButton("Дальше", callback_data='button_1')
+    button_quiz.add(button_quiz_1)
 
-async def start_quiz(message: types.Message):
-    first_question = quiz_data["question1"]
-    markup = InlineKeyboardMarkup()
-    for idx, option in enumerate(first_question["options"]):
-        markup.add(InlineKeyboardButton(option, callback_data=f"question1:{idx}"))
-    await message.answer(first_question["question"], reply_markup=markup)
 
-async def quiz_callback_handler(callback_query: types.CallbackQuery):
-    question_id, option_id = callback_query.data.split(":")
-    option_id = int(option_id)
-    question = quiz_data[question_id]
+    question = 'BMW or Mercedes'
+    answer = ['BMW', 'Mercedes']
 
-    if option_id == question["correct_option_id"]:
-        await bot.answer_callback_query(callback_query.id, text="Правильно!")
-        next_question_id = question["next_question"]
-        if next_question_id:
-            next_question = quiz_data[next_question_id]
-            markup = InlineKeyboardMarkup()
-            for idx, option in enumerate(next_question["options"]):
-                markup.add(InlineKeyboardButton(option, callback_data=f"{next_question_id}:{idx}"))
-            await bot.send_message(callback_query.from_user.id, next_question["question"], reply_markup=markup)
-        else:
-            await bot.send_message(callback_query.from_user.id, "Викторина завершена!")
-    else:
-        await bot.answer_callback_query(callback_query.id, text="Неправильно, попробуйте снова!")
+    await bot.send_poll(
+            chat_id=message.from_user.id,
+            question=question,
+            options=answer,
+            is_anonymous=True,
+            type=PollType.QUIZ,
+            correct_option_id=1,
+            explanation='Под индексом 1',
+            open_period=60,
+            reply_markup=button_quiz
+       )
 
-def register_quiz_handlers(dp: Dispatcher):
-    dp.register_message_handler(start_quiz, commands=['quiz'])
-    dp.register_callback_query_handler(quiz_callback_handler, lambda c: ':' in c.data)
+
+async def quiz_2(call: types.CallbackQuery):
+    button_quiz = InlineKeyboardMarkup()
+    button_quiz_1 = InlineKeyboardButton("Дальше", callback_data='button_2')
+    button_quiz.add(button_quiz_1)
+
+
+    question = 'Messi or Ronaldu'
+    photo_quiz = open('media/mem3.png', 'rb')
+    answer = ['Messi', 'Ronaldu', 'Я']
+
+    await bot.send_photo(chat_id=call.from_user.id, photo=photo_quiz)
+    await bot.send_poll(
+            chat_id=call.from_user.id,
+            question=question,
+            options=answer,
+            is_anonymous=True,
+            type=PollType.QUIZ,
+            correct_option_id=2,
+            explanation='Слушай свое эго',
+            open_period=60,
+            reply_markup=button_quiz
+       )
+async def button_handler(callback_query: types.CallbackQuery):
+    if callback_query.data == 'button_1':
+        await bot.answer_callback_query(callback_query.id, text="Вы нажали кнопку 'Дальше'")
+        await bot.send_message(callback_query.from_user.id, "Теперь вы можете продолжить викторину или завершить её.")
+
+def register_quiz(dp: Dispatcher):
+    dp.register_message_handler(quiz, commands=['quiz'])
+    dp.register_callback_query_handler(quiz_2, text='button_1')
