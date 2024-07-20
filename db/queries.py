@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 CREATE_TABLE_NAME_PRODUCTS = """
     CREATE TABLE IF NOT EXISTS online_store
     (id INTEGER PRIMARY KEY AUTOINCREMENT, 
@@ -11,13 +10,13 @@ CREATE_TABLE_NAME_PRODUCTS = """
 """
 
 INSERT_STORE = """
-    INSERT INTO online_store(name_product, size, price,  productid, photo)
+    INSERT INTO online_store(name_product, size, price, productid, photo)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
 """
 
 
-CREATE_TABLE_PRODUCT_DETAIL = """
-    CREATE TABLE IF NOT EXISTS products_detail
+CREATE_TABLE_PRODUCT_DETAILS = """
+    CREATE TABLE IF NOT EXISTS product_details
     (id INTEGER PRIMARY KEY AUTOINCREMENT,
     productid VARCHAR(255),
     category VARCHAR(255),
@@ -26,28 +25,19 @@ CREATE_TABLE_PRODUCT_DETAIL = """
 """
 
 INSERT_DETAIL_PRODUCTS = """
-    INSERT INTO products_detail(productid, category, infoproduct)
+    INSERT INTO product_detailS(productid, category, infoproduct)
     VALUES (?, ?, ?)
-=======
+"""
 
-
-CREATE_TABLE_PRODUCT_DETAILS = """
-    CREATE TABLE IF NOT EXISTS product_details
-    (id INTERGER PRIMARY KEY AUTOINTEGER,
-    name_product VARCHAR(255),
-    size VACHAR(255)
-    price VACHAR(255)
-    photo TEXT
-    product_id INTEGER
-    category VACHAR(255)
-    info_product TEXT
+CREATE_TABLE_COLLECTION_PRODUCTS = """
+    CREATE TABLE IF NOT EXISTS collection_products
+    (id INTEGER PRIMARY KEY AUTOINCREMENT,
+    productid VARCHAR(255),
+    collection VARCHAR(255)
     )
 """
 
-
-INSERT_STORE = """
-   INSERT_INFO online_store(name_product, size, price, product_id, category, info_product, photo)
-    VALUES(?, ?, ?, ?, ?, ?, ?)
-
->>>>>>> 3adc3855d84a08f4068db3930f774eb83f99f35a
+INSERT_DETAIL_PRODUCTS = """
+    INSERT INTO collection_products(productid, collection_products)
+    VALUES (?, ?)
 """

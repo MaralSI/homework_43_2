@@ -1,7 +1,7 @@
 from config import dp, Admin, bot
-from aiogram.utils import executor
+from aiogram import executor
 import logging
-from handlers import commands, echo, quiz, FSM_reg, FSM_store, notification, send_products, webapp, admin_group
+from handlers import commands, echo, quiz, FSM_reg, FSM_shop, FSM_store, notification, send_products, webapp, admin_group
 import buttons
 from db import main_db
 
@@ -10,7 +10,7 @@ async def on_startup(_):
     for i in Admin:
         await notification.set_scheduler()
         await bot.send_message(chat_id=i, text='Bot started',
-                               reply_markup=buttons.start_buttons)
+                            reply_markup=buttons.start_buttons)
         await main_db.sql_create()
 
 
@@ -23,9 +23,8 @@ commands.register_commands(dp)
 quiz.register_quiz(dp)
 FSM_reg.register_fsm_for_user(dp)
 FSM_store.register_fsm_store(dp)
-notification.register_notification(dp)
-send_products.register_send_products(dp)
-webapp.register_webapp(dp)
+FSM_shop.rregister_fsm_for_user(dp)
+
 
 admin_group.register_admin_group(dp)
 
