@@ -17,7 +17,11 @@ class store(StatesGroup):
     price = State()
     product_id = State()
     category = State()
+<<<<<<< HEAD
     infoproduct = State()
+=======
+    info_product = State()
+>>>>>>> 3adc3855d84a08f4068db3930f774eb83f99f35a
     photo = State()
     submit = State()
 
@@ -65,9 +69,15 @@ async def load_category(message: types.Message, state: FSMContext):
     await store.next()
     await message.answer(text='Введите информацию о товаре: ')
 
+<<<<<<< HEAD
 async def load_infoproduct(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['infoproduct'] = message.text
+=======
+async def load_info_product(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['info_product'] = message.text
+>>>>>>> 3adc3855d84a08f4068db3930f774eb83f99f35a
 
 
     await store.next()
@@ -88,7 +98,11 @@ async def load_photo(message: types.Message, state: FSMContext):
                                        f"Цена - {data['price']}\n"
                                        f"Артикул - {data['product_id']}\n"
                                        f"Категория -{data['category']}\n"
+<<<<<<< HEAD
                                        f"Информация о товаре - {data['infoproduct']}\n\n"
+=======
+                                       f"Информация о товаре - {data['info_product']}\n\n"
+>>>>>>> 3adc3855d84a08f4068db3930f774eb83f99f35a
                                        f"<b>Верные ли данные ?</b>",
                                reply_markup=keyboard, parse_mode=types.ParseMode.HTML)
 
@@ -102,7 +116,11 @@ async def submit(message: types.Message, state: FSMContext):
                 price=data['price'],
                 product_id=data['product_id'],
                 category=data['category'],
+<<<<<<< HEAD
                 info_product=data['infoproduct'],
+=======
+                info_product=data['info_product'],
+>>>>>>> 3adc3855d84a08f4068db3930f774eb83f99f35a
                 photo=data['photo']
             )
             await message.answer('Отлично! Регистрация пройдена.', reply_markup=buttons.start_buttons)
@@ -132,6 +150,10 @@ def register_fsm_store(dp: Dispatcher):
     dp.register_message_handler(load_price, state=store.price)
     dp.register_message_handler(load_product_id, state=store.product_id)
     dp.register_message_handler(load_category, state=store.category)
+<<<<<<< HEAD
     dp.register_message_handler(load_infoproduct, state=store.infoproduct)
+=======
+    dp.register_message_handler(load_info_product, state=store.info_product)
+>>>>>>> 3adc3855d84a08f4068db3930f774eb83f99f35a
     dp.register_message_handler(load_photo, state=store.photo, content_types=['photo'])
     dp.register_message_handler(submit, state=store.submit)
