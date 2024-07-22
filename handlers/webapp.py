@@ -8,7 +8,12 @@ async def webapp_reply(message: types.Message):
     keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
     keyboard.add(KeyboardButton('Geeks online', web_app=types.WebAppInfo(url='https://online.geeks.kg')),
                     KeyboardButton('Kaktus Media', web_app=types.WebAppInfo(url='https://kaktus.media')),
-                    KeyboardButton('Netflix', web_app=types.WebAppInfo(url='https://www.netflix.com/kg-ru/')))
+                    KeyboardButton('Netflix', web_app=types.WebAppInfo(url='https://www.netflix.com/kg-ru/'))
+                    KeyboardButton('Statdata', web_app=types.WebAppInfo(url='https://www.stat.gov.kg/'))
+                    KeyboardButton('Research conference', web_app=types.WebAppInfo(url='https://centraleurasia.org/cess-fall-2024-conference/'))
+                    KeyboardButton('Global Environment Facility', web_app=types.WebAppInfo(url='https://www.thegef.org/'))
+                    KeyboardButton('Akipress', web_app=types.WebAppInfo(url='https://akipress.org/'))
+                    KeyboardButton('Geeks Academy', web_app=types.WebAppInfo(url='https://geeks.kg/allcourses')))
 
     await message.answer('Нажми на кнопку ниже для перехода на сайты:', reply_markup=keyboard)
 
@@ -17,7 +22,12 @@ async def webapp_inline(message: types.Message):
     keyboard = InlineKeyboardMarkup(row_width=1)
     keyboard.add(InlineKeyboardButton('Geeks online', web_app=types.WebAppInfo(url='https://online.geeks.kg')),
                     InlineKeyboardButton('Kaktus Media', web_app=types.WebAppInfo(url='https://kaktus.media')),
-                    InlineKeyboardButton('Netflix', web_app=types.WebAppInfo(url='https://www.netflix.com/kg-ru/')))
+                    InlineKeyboardButton('Netflix', web_app=types.WebAppInfo(url='https://www.netflix.com/kg-ru/'))
+                    InlineKeyboardButton('Statdata', web_app=types.WebAppInfo(url='https://www.stat.gov.kg/'))
+                    InlineKeyboardButton('Research conference', web_app=types.WebAppInfo(url='https://centraleurasia.org/cess-fall-2024-conference/'))
+                    InlineKeyboardButton('Global Environment Facility', web_app=types.WebAppInfo(url='https://www.thegef.org/'))
+                    InlineKeyboardButton('Akipress', web_app=types.WebAppInfo(url='https://akipress.org/'))
+                    InlineKeyboardButton('Geeks Academy', web_app=types.WebAppInfo(url='https://geeks.kg/allcourses')))
     
     await message.answer('Нажми на кнопку ниже для перехода на сайты:', reply_markup=keyboard)
 
