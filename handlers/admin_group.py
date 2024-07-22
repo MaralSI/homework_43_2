@@ -33,7 +33,7 @@ async def warn_user(message: types.Message):
 
                 if user_warnings[user_id] >= 3:
                     await bot.kick_chat_member(message.chat.id, user_id)
-                    await bot.send_message(chat_id=admin, text=f'{user_name} был удален за превышение количества предупреждений!')
+                    await bot.send_message(chat_id=admin, text=f'{user_name} был удален за нарушение установленных правил!')
 
 
 async def delete_user_handler(message: types.Message):
@@ -41,7 +41,7 @@ async def delete_user_handler(message: types.Message):
         if message.from_user.id not in Admin:
             await message.answer('Ты не админ!')
         elif not message.reply_to_message:
-            await message.answer('Команда должны быть ответом на сообщение')
+            await message.answer('Команда должна быть ответом на сообщение')
         else:
             user_id = message.reply_to_message.from_user.id
             user_name = message.reply_to_message.from_user.full_name

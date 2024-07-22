@@ -7,7 +7,7 @@ from aiogram import Dispatcher, types
 from aiogram.dispatcher import FSMContext
 import random
 
-# users = [995712956, ]
+# users = [6703150919, ]
 # notification = []
 #
 #
@@ -47,7 +47,7 @@ import random
 #     notification_message = message.text
 #     notification.append(notification_message)
 #
-#     await message.reply(f'Сообщение "{notification_message}" добавлено в список уведолений')
+#     await message.reply(f'Сообщение "{notification_message}" добавлено в список уведомлений')
 #     await state.finish()
 #
 #
@@ -55,7 +55,7 @@ import random
 #     dp.register_message_handler(handler_notification_command, commands=['notification'])
 #     dp.register_message_handler(handle_notification_text, state=Notification.waiting_for_message)
 
-users = [995712956, ]
+users = [6703150919, ]
 notifications = []
 
 
@@ -69,7 +69,7 @@ async def send_notification(user_id, message):
     firstname = user.first_name if user.first_name else "Пользователь"
     await bot.send_message(
         chat_id=user_id,
-        text=f"🔔 Напоминание 🔔 \nДобрый день {firstname}! \nНе забудьте про - {message}"
+        text=f"🔔 Напоминание 🔔 \nДобрый день {firstname}! \n Не забудьте про - {message}"
     )
 
 

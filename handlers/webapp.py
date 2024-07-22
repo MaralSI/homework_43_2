@@ -28,7 +28,6 @@ async def webapp_inline(message: types.Message):
                     InlineKeyboardButton('Global Environment Facility', web_app=types.WebAppInfo(url='https://www.thegef.org/'))
                     InlineKeyboardButton('Akipress', web_app=types.WebAppInfo(url='https://akipress.org/'))
                     InlineKeyboardButton('Geeks Academy', web_app=types.WebAppInfo(url='https://geeks.kg/allcourses')))
-    
     await message.answer('Нажми на кнопку ниже для перехода на сайты:', reply_markup=keyboard)
 
 
