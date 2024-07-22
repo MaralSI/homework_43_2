@@ -9,7 +9,7 @@ import buttons
 class RegisterUser(StatesGroup):
     fullname = State()
     age = State()
-    adress = State()
+    address = State()
     phone = State()
     email = State()
     photo = State()
@@ -37,9 +37,9 @@ async def load_age(message: types.Message, state: FSMContext):
     await message.answer(text='Введите свой адрес:')
 
 
-async def load_adress(message: types.Message, state: FSMContext):
+async def load_address(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['adress'] = message.text
+        data['address'] = message.text
 
     await RegisterUser.next()
     await message.answer(text='Введите свой номер телефона:')
@@ -73,13 +73,13 @@ async def load_photo(message: types.Message, state: FSMContext):
 
     await RegisterUser.next()
     await message.answer_photo(photo=data['photo'],
-                               caption=f"Фио - {data['fullname']}\n"
-                                       f"Возраст - {data['age']}\n"
-                                       f"Адрес - {data['adress']}\n"
-                                       f"Номер - {data['phone']}\n"
-                                       f"Почта - {data['email']}\n\n"
-                                       f"<b>Верные ли данные ?</b>",
-                               reply_markup=keyboard, parse_mode=types.ParseMode.HTML)
+                                caption=f"Фио - {data['fullname']}\n"
+                                        f"Возраст - {data['age']}\n"
+                                        f"Адрес - {data['adress']}\n"
+                                        f"Номер - {data['phone']}\n"
+                                        f"Почта - {data['email']}\n\n"
+                                        f"<b>Верные ли данные ?</b>",
+                                reply_markup=keyboard, parse_mode=types.ParseMode.HTML)
 
 
 async def submit(callback_query: types.CallbackQuery, state: FSMContext):
@@ -104,11 +104,11 @@ async def cancel_fsm(message: types.Message, state: FSMContext):
 # Finite State Machine
 def register_fsm_for_user(dp: Dispatcher):
     dp.register_message_handler(cancel_fsm, Text(equals='Отмена',
-                                                 ignore_case=True), state='*')
+                                                ignore_case=True), state='*')
     dp.register_message_handler(fsm_start, commands=['registration'])
     dp.register_message_handler(load_name, state=RegisterUser.fullname)
     dp.register_message_handler(load_age, state=RegisterUser.age)
-    dp.register_message_handler(load_adress, state=RegisterUser.adress)
+    dp.register_message_handler(load_address, state=RegisterUser.adress)
     dp.register_message_handler(load_phone, state=RegisterUser.phone)
     dp.register_message_handler(load_email, state=RegisterUser.email)
     dp.register_message_handler(load_photo, state=RegisterUser.photo, content_types=['photo'])

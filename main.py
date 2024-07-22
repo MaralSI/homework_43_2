@@ -1,7 +1,7 @@
-from config import dp, Admin, bot
-from aiogram import executor
+from config import dp, Admin, Bot
+from aiogram.utils import executor
 import logging
-from handlers import commands, echo, quiz, FSM_reg, FSM_shop, FSM_store, notification, send_products, webapp, admin_group
+from handlers import commands, echo, quiz, FSM_reg, FSM_store, notification, send_products, webapp, admin_group
 import buttons
 from db import main_db
 
@@ -23,9 +23,10 @@ commands.register_commands(dp)
 quiz.register_quiz(dp)
 FSM_reg.register_fsm_for_user(dp)
 FSM_store.register_fsm_store(dp)
-FSM_shop.rregister_fsm_for_user(dp)
-
-
+notification.register_notification(dp)
+send_products.register_send_products(dp)
+webapp.register_webapp(dp)
+echo.register_message_handler(dp)
 admin_group.register_admin_group(dp)
 
 # Эхо функция - вызывать самым последним

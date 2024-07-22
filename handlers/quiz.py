@@ -21,7 +21,7 @@ async def quiz(message: types.Message):
             explanation='Под индексом 1',
             open_period=60,
             reply_markup=button_quiz
-       )
+        )
 
 
 async def quiz_2(call: types.CallbackQuery):
@@ -45,7 +45,7 @@ async def quiz_2(call: types.CallbackQuery):
             explanation='Слушай свое эго',
             open_period=60,
             reply_markup=button_quiz
-       )
+        )
 async def button_handler(callback_query: types.CallbackQuery):
     if callback_query.data == 'button_1':
         await bot.answer_callback_query(callback_query.id, text="Вы нажали кнопку 'Дальше'")
