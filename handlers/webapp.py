@@ -31,6 +31,17 @@ async def webapp_inline(message: types.Message):
     await message.answer('Нажми на кнопку ниже для перехода на сайты:', reply_markup=keyboard)
 
 
+async def pin(ctx):
+    if ctx.message.reference:
+        referenced_message = await ctx.channel.fetch_message(ctx.message.reference.message_id)
+        await referenced_message.pin()
+        await ctx.send('Сообщение закреплено!', delete_after=3)
+    else:
+        await ctx.send('Ответьте на сообщение, которое хотите закрепить.', delete_after=3)
+
+
 def register_webapp(db: Dispatcher):
     dp.register_message_handler(webapp_reply, commands=['webreply'])
     dp.register_message_handler(webapp_inline, commands=['webinline'])
+    dp.register_message_handler(pin, commands=['!pin'])
+    
