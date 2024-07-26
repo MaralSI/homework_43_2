@@ -4,6 +4,8 @@ from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 import buttons
+from db import main_db
+from Google_Sheets.sheets import update_google_sheet_products 
 
 
 class RegisterUser(StatesGroup):
@@ -21,7 +23,7 @@ async def fsm_start(message: types.Message):
     await message.answer(text="Введите ФИО:", reply_markup=buttons.cancel)
 
 
-async def load_name(message: types.Message, state: FSMContext):
+async def load_fullname(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['fullname'] = message.text
 
@@ -75,24 +77,38 @@ async def load_photo(message: types.Message, state: FSMContext):
     await message.answer_photo(photo=data['photo'],
                                 caption=f"Фио - {data['fullname']}\n"
                                         f"Возраст - {data['age']}\n"
-                                        f"Адрес - {data['adress']}\n"
+                                        f"Адрес - {data['address']}\n"
                                         f"Номер - {data['phone']}\n"
                                         f"Почта - {data['email']}\n\n"
                                         f"<b>Верные ли данные ?</b>",
                                 reply_markup=keyboard, parse_mode=types.ParseMode.HTML)
 
 
-async def submit(callback_query: types.CallbackQuery, state: FSMContext):
-    if callback_query.data == 'confirm_yes':
-        await callback_query.message.answer('Отлично! Регистрация пройдена.', reply_markup=buttons.start_buttons)
+async def submit(message: types.Message, state: FSMContext):
+    if message.text == 'Да':
+        async with state.proxy() as data:
+            await main_db.sql_insert_store(
+                fullname=data['fullname'],
+                age=data['age'],
+                address=data['address'],
+                phone=data['phone'],
+                email=data['email']
+            )
+            
+            update_google_sheet_products(fullname=data['fullname'],
+                                                age=data['age'],
+                                                address=data['address'],
+                                                phone=data['phone'],
+                                                email=data['email'])
+            
+            await message.answer('Отлично! Регистрация пройдена.', reply_markup=buttons.start_buttons)
+            await state.finish()
+    elif message.text == 'Нет':
+        await message.answer('Отменено!', reply_markup=buttons.start_buttons)
         await state.finish()
-    elif callback_query.data == 'confirm_no':
-        await callback_query.message.answer('Отменено!', reply_markup=buttons.start_buttons)
-        await state.finish()
-
+        
     else:
-        await callback_query.message.answer(text='Нажмите на кнопку!')
-
+        await message.answer(text='Нажмите на кнопку!')
 
 async def cancel_fsm(message: types.Message, state: FSMContext):
     current_state = await state.get_state()
@@ -106,7 +122,7 @@ def register_fsm_for_user(dp: Dispatcher):
     dp.register_message_handler(cancel_fsm, Text(equals='Отмена',
                                                 ignore_case=True), state='*')
     dp.register_message_handler(fsm_start, commands=['registration'])
-    dp.register_message_handler(load_name, state=RegisterUser.fullname)
+    dp.register_message_handler(load_fullname, state=RegisterUser.fullname)
     dp.register_message_handler(load_age, state=RegisterUser.age)
     dp.register_message_handler(load_address, state=RegisterUser.adress)
     dp.register_message_handler(load_phone, state=RegisterUser.phone)

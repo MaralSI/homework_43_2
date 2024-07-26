@@ -15,6 +15,7 @@ class store(StatesGroup):
     product_id = State()
     category = State()
     info_product = State()
+    collection_product = State ()
     photo = State()
     submit = State()
 
@@ -69,9 +70,15 @@ async def load_info_product(message: types.Message, state: FSMContext):
 
     await store.next()
     kb = types.ReplyKeyboardRemove()
+    await message.answer(text='Напишите коллекцию товара:', reply_markup=kb)
+
+async def load_collection_product(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['collection_product'] = message.text
+
+    await store.next()
+    kb = types.ReplyKeyboardRemove()
     await message.answer(text='Отправьте фотку товара:', reply_markup=kb)
-
-
 
 async def load_photo(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
@@ -103,10 +110,15 @@ async def submit(message: types.Message, state: FSMContext):
                 photo=data['photo']
             )
 
-            await main_db.sql_insert_detail_products(
+            await main_db.sql_insert_product_details(
                 product_id=data['product_id'],
                 category=data['category'],
                 info_product=data['info_product']
+            )
+
+            await main_db.sql_insert_collection_products(
+                product_id=data['product_id']
+                collection=data['collection_product']
             )
 
             await message.answer('Отлично! Регистрация пройдена.', reply_markup=buttons.start_buttons)
@@ -138,4 +150,5 @@ def register_fsm_store(dp: Dispatcher):
     dp.register_message_handler(load_category, state=store.category)
     dp.register_message_handler(load_info_product, state=store.info_product)
     dp.register_message_handler(load_photo, state=store.photo, content_types=['photo'])
+    dp.register_message_handler(load_collection_product, state=store.collection_product)
     dp.register_message_handler(submit, state=store.submit)
