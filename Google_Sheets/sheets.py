@@ -3,7 +3,7 @@ from aiogram import Dispatcher, types
 
 def update_google_sheet_products(fullname, age, address, phone, email):
     try:
-        range_name = 'Лист1!A:G'
+        range_name = 'Sheet1!A:G'
         
         row = [fullname, age, address, phone, email]
         
