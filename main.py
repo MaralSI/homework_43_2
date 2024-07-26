@@ -4,6 +4,7 @@ import logging
 from handlers import commands, echo, quiz, FSM_reg, FSM_store, notification, send_products, webapp, admin_group
 import buttons
 from db import main_db
+from Google_Sheets import sheets, config_sheets
 
 
 async def on_startup(_):
@@ -26,6 +27,8 @@ FSM_store.register_fsm_store(dp)
 notification.register_notification(dp)
 send_products.register_send_products(dp)
 webapp.register_webapp(dp)
+sheets.register_google_sheets(dp)
+
 echo.register_message_handler(dp)
 admin_group.register_admin_group(dp)
 

@@ -92,14 +92,17 @@ async def submit(message: types.Message, state: FSMContext):
                 age=data['age'],
                 address=data['address'],
                 phone=data['phone'],
-                email=data['email']
-            )
+                email=data['email'],
+                photo=data['photo']
+                )
             
             update_google_sheet_products(fullname=data['fullname'],
-                                                age=data['age'],
-                                                address=data['address'],
-                                                phone=data['phone'],
-                                                email=data['email'])
+                                        age=data['age'],
+                                        address=data['address'],
+                                        phone=data['phone'],
+                                        email=data['email'],
+                                        photo=data['photo']
+                                        )
             
             await message.answer('Отлично! Регистрация пройдена.', reply_markup=buttons.start_buttons)
             await state.finish()
